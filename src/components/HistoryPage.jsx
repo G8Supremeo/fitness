@@ -1,10 +1,14 @@
 import { useMemo, useState } from 'react'
 
 const CATEGORY_ICONS = {
-  running: '🏃',
-  gym: '🏋️',
+  cardio: '🏃',
+  weights: '🏋️',
+  bodyweight: '🤸',
   yoga: '🧘',
-  hydration: '💧',
+  recovery: '💧',
+  running: '🏃', // Legacy
+  gym: '🏋️', // Legacy
+  hydration: '💧', // Legacy
   general: '💪',
 }
 
@@ -77,10 +81,11 @@ export default function HistoryPage({ logs, onDelete, addToast }) {
           />
           <select value={categoryFilter} onChange={(e) => { setCategoryFilter(e.target.value); setPage(1) }}>
             <option value="all">All Types</option>
-            <option value="running">🏃 Running</option>
-            <option value="gym">🏋️ Gym</option>
+            <option value="cardio">🏃 Cardio</option>
+            <option value="weights">🏋️ Weights</option>
+            <option value="bodyweight">🤸 Bodyweight</option>
             <option value="yoga">🧘 Yoga & Mind</option>
-            <option value="hydration">💧 Hydration & Sleep</option>
+            <option value="recovery">💧 Recovery & Sleep</option>
           </select>
           <input type="date" value={dateFrom} onChange={(e) => { setDateFrom(e.target.value); setPage(1) }} title="From date" />
           <input type="date" value={dateTo} onChange={(e) => { setDateTo(e.target.value); setPage(1) }} title="To date" />
@@ -118,14 +123,15 @@ export default function HistoryPage({ logs, onDelete, addToast }) {
                     <td>{log.duration > 0 ? `${log.duration} min` : '—'}</td>
                     <td>{log.calories > 0 ? log.calories : '—'}</td>
                     <td style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                      {log.category === 'running' && log.distance > 0 && `${log.distance}km`}
-                      {log.category === 'running' && log.pace && ` @ ${log.pace}/km`}
-                      {log.category === 'gym' && log.sets > 0 && `${log.sets}×${log.reps} @ ${log.weight_kg}kg`}
+                      {['running', 'cardio'].includes(log.category) && log.distance > 0 && `${log.distance}km`}
+                      {['running', 'cardio'].includes(log.category) && log.pace && ` @ ${log.pace}`}
+                      {['gym', 'weights'].includes(log.category) && log.sets > 0 && `${log.sets}×${log.reps} @ ${log.weight_kg}kg`}
+                      {log.category === 'bodyweight' && log.sets > 0 && `${log.sets}×${log.reps}`}
                       {log.category === 'yoga' && log.mood > 0 && `Mood: ${['😞','😐','🙂','😊','🤩'][log.mood - 1]}`}
-                      {log.category === 'hydration' && log.water_ml > 0 && `${log.water_ml}ml`}
-                      {log.category === 'hydration' && log.sleep_hours > 0 && ` | ${log.sleep_hours}h sleep`}
+                      {['hydration', 'recovery'].includes(log.category) && log.water_ml > 0 && `${log.water_ml}ml`}
+                      {['hydration', 'recovery'].includes(log.category) && log.sleep_hours > 0 && ` | ${log.sleep_hours}h sleep`}
                       {log.heart_rate > 0 && ` ❤️${log.heart_rate}`}
-                      {!log.category || log.category === 'general' ? (log.notes || '—') : ''}
+                      {!log.category || log.category === 'general' ? (log.notes || '') : ''}
                     </td>
                     <td>
                       <span className={`source-badge ${sourceClass(log.source)}`}>

@@ -7,6 +7,7 @@ import AuthPage from './components/AuthPage'
 import Dashboard from './components/Dashboard'
 import HistoryPage from './components/HistoryPage'
 import GoalsPage from './components/GoalsPage'
+import LandingPage from './components/LandingPage'
 import Toast from './components/Toast'
 import { useToast } from './hooks/useToast'
 
@@ -137,18 +138,22 @@ function App() {
       <Toast toasts={toasts} removeToast={removeToast} />
 
       <Routes>
-        {/* Auth pages — no navbar, full-screen layout */}
+        {/* Public pages — no navbar, full-screen layout */}
+        <Route
+          path="/"
+          element={<LandingPage isAuthed={isAuthed} />}
+        />
         <Route
           path="/login"
           element={
-            isAuthed ? <Navigate to="/" replace /> :
+            isAuthed ? <Navigate to="/dashboard" replace /> :
             <AuthPage mode="login" onSubmit={login} />
           }
         />
         <Route
           path="/register"
           element={
-            isAuthed ? <Navigate to="/" replace /> :
+            isAuthed ? <Navigate to="/dashboard" replace /> :
             <AuthPage mode="register" onSubmit={register} />
           }
         />
@@ -161,7 +166,7 @@ function App() {
               <Navbar user={activeUser} onLogout={logout} />
               <Routes>
                 <Route
-                  path="/"
+                  path="/dashboard"
                   element={
                     <ProtectedRoute isAuthed={isAuthed}>
                       <Dashboard
@@ -200,7 +205,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<Navigate to={isAuthed ? "/dashboard" : "/"} replace />} />
               </Routes>
             </div>
           }

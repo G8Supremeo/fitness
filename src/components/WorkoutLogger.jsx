@@ -1,10 +1,11 @@
 import { useReducer, useState } from 'react'
 
 const CATEGORIES = [
-  { id: 'running', label: 'Running', icon: '🏃' },
-  { id: 'gym', label: 'Home Gym', icon: '🏋️' },
+  { id: 'cardio', label: 'Cardio', icon: '🏃' },
+  { id: 'weights', label: 'Weights', icon: '🏋️' },
+  { id: 'bodyweight', label: 'Bodyweight', icon: '🤸' },
   { id: 'yoga', label: 'Yoga & Mind', icon: '🧘' },
-  { id: 'hydration', label: 'Hydration & Sleep', icon: '💧' },
+  { id: 'recovery', label: 'Recovery', icon: '💧' },
 ]
 
 const MOODS = ['😞', '😐', '🙂', '😊', '🤩']
@@ -12,10 +13,11 @@ const MOODS = ['😞', '😐', '🙂', '😊', '🤩']
 const today = () => new Date().toISOString().slice(0, 10)
 
 const defaults = {
-  running: { type: 'Run', category: 'running', duration: 30, calories: 250, distance: 5, pace: '6:00', heart_rate: 0, notes: '', date: today() },
-  gym: { type: 'Strength', category: 'gym', duration: 45, calories: 300, sets: 3, reps: 12, weight_kg: 20, notes: '', date: today() },
+  cardio: { type: 'Run', category: 'cardio', duration: 30, calories: 250, distance: 5, pace: '6:00', heart_rate: 0, notes: '', date: today() },
+  weights: { type: 'Strength', category: 'weights', duration: 45, calories: 300, sets: 3, reps: 12, weight_kg: 20, notes: '', date: today() },
+  bodyweight: { type: 'Push-ups', category: 'bodyweight', duration: 20, calories: 150, sets: 4, reps: 20, notes: '', date: today() },
   yoga: { type: 'Yoga', category: 'yoga', duration: 30, calories: 100, mood: 3, notes: '', date: today() },
-  hydration: { type: 'Hydration', category: 'hydration', duration: 0, calories: 0, water_ml: 2000, sleep_hours: 7.5, notes: '', date: today() },
+  recovery: { type: 'Hydration', category: 'recovery', duration: 0, calories: 0, water_ml: 2000, sleep_hours: 7.5, notes: '', date: today() },
 }
 
 function reducer(state, action) {
@@ -30,8 +32,8 @@ function reducer(state, action) {
 }
 
 export default function WorkoutLogger({ onLog, addToast }) {
-  const [activeTab, setActiveTab] = useState('running')
-  const [form, dispatch] = useReducer(reducer, defaults.running)
+  const [activeTab, setActiveTab] = useState('cardio')
+  const [form, dispatch] = useReducer(reducer, defaults.cardio)
   const [submitting, setSubmitting] = useState(false)
 
   const switchTab = (cat) => {
@@ -79,25 +81,33 @@ export default function WorkoutLogger({ onLog, addToast }) {
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="log-type">Exercise Type</label>
-            {activeTab === 'running' ? (
+            {activeTab === 'cardio' ? (
               <select id="log-type" value={form.type} onChange={set('type')}>
                 <option>Run</option>
+                <option>Cycling</option>
+                <option>Swimming</option>
                 <option>Sprint</option>
-                <option>Trail Run</option>
                 <option>Walk</option>
-                <option>Hike</option>
+                <option>Sports</option>
               </select>
-            ) : activeTab === 'gym' ? (
+            ) : activeTab === 'weights' ? (
               <select id="log-type" value={form.type} onChange={set('type')}>
                 <option>Strength</option>
                 <option>Bench Press</option>
                 <option>Squat</option>
                 <option>Deadlift</option>
-                <option>Pull-ups</option>
-                <option>Push-ups</option>
                 <option>Rows</option>
                 <option>Shoulder Press</option>
                 <option>Bicep Curls</option>
+              </select>
+            ) : activeTab === 'bodyweight' ? (
+              <select id="log-type" value={form.type} onChange={set('type')}>
+                <option>Push-ups</option>
+                <option>Pull-ups</option>
+                <option>Dips</option>
+                <option>Core / Abs</option>
+                <option>Calisthenics</option>
+                <option>Muscles-ups</option>
               </select>
             ) : activeTab === 'yoga' ? (
               <select id="log-type" value={form.type} onChange={set('type')}>
@@ -111,6 +121,7 @@ export default function WorkoutLogger({ onLog, addToast }) {
               <select id="log-type" value={form.type} onChange={set('type')}>
                 <option>Hydration</option>
                 <option>Sleep Log</option>
+                <option>Active Recovery</option>
                 <option>Rest Day</option>
               </select>
             )}
@@ -121,8 +132,8 @@ export default function WorkoutLogger({ onLog, addToast }) {
           </div>
         </div>
 
-        {/* Running-specific */}
-        {activeTab === 'running' && (
+        {/* Cardio-specific */}
+        {activeTab === 'cardio' && (
           <>
             <div className="form-row">
               <div className="form-group">
@@ -130,8 +141,8 @@ export default function WorkoutLogger({ onLog, addToast }) {
                 <input id="log-distance" type="number" step="0.1" min="0" value={form.distance} onChange={setNum('distance')} />
               </div>
               <div className="form-group">
-                <label htmlFor="log-pace">Pace (min/km)</label>
-                <input id="log-pace" type="text" placeholder="e.g. 5:30" value={form.pace} onChange={set('pace')} />
+                <label htmlFor="log-pace">Pace / Speed</label>
+                <input id="log-pace" type="text" placeholder="e.g. 5:30 or 25km/h" value={form.pace} onChange={set('pace')} />
               </div>
             </div>
             <div className="form-row">
@@ -151,8 +162,8 @@ export default function WorkoutLogger({ onLog, addToast }) {
           </>
         )}
 
-        {/* Gym-specific */}
-        {activeTab === 'gym' && (
+        {/* Weights-specific */}
+        {activeTab === 'weights' && (
           <>
             <div className="form-row">
               <div className="form-group">
@@ -177,6 +188,32 @@ export default function WorkoutLogger({ onLog, addToast }) {
             <div className="form-group">
               <label htmlFor="log-calories-gym">Calories Burned</label>
               <input id="log-calories-gym" type="number" min="0" value={form.calories} onChange={setNum('calories')} />
+            </div>
+          </>
+        )}
+
+        {/* Bodyweight-specific */}
+        {activeTab === 'bodyweight' && (
+          <>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="log-sets-bw">Sets</label>
+                <input id="log-sets-bw" type="number" min="1" value={form.sets} onChange={setNum('sets')} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="log-reps-bw">Reps</label>
+                <input id="log-reps-bw" type="number" min="1" value={form.reps} onChange={setNum('reps')} />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="log-duration-bw">Duration (min)</label>
+                <input id="log-duration-bw" type="number" min="0" value={form.duration} onChange={setNum('duration')} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="log-calories-bw">Calories Burned</label>
+                <input id="log-calories-bw" type="number" min="0" value={form.calories} onChange={setNum('calories')} />
+              </div>
             </div>
           </>
         )}
@@ -213,8 +250,8 @@ export default function WorkoutLogger({ onLog, addToast }) {
           </>
         )}
 
-        {/* Hydration/Sleep-specific */}
-        {activeTab === 'hydration' && (
+        {/* Recovery-specific */}
+        {activeTab === 'recovery' && (
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="log-water">Water Intake (ml)</label>
