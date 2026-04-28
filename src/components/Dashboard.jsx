@@ -17,7 +17,7 @@ const weeklyRange = () => {
 
 const todayKey = () => new Date().toISOString().slice(0, 10)
 
-export default function Dashboard({ user, logs, goals, addLog, addToast }) {
+export default function Dashboard({ user, logs, goals, addLog, addToast, onSyncRefresh }) {
   const [reminderTime, setReminderTime] = useState('18:00')
   const streak = useStreak(logs)
 
@@ -127,7 +127,7 @@ export default function Dashboard({ user, logs, goals, addLog, addToast }) {
       <div className="sidebar-col">
         {/* Bluetooth Panel */}
         <section className="card">
-          <BluetoothPanel />
+          <BluetoothPanel addToast={addToast} onLogged={onSyncRefresh} />
         </section>
 
         {/* Goal Progress */}

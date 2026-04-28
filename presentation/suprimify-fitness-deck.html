@@ -1,169 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Suprimify - Fitness Tracker Presentation</title>
-    <style>
-      :root {
-        --bg: #030712;
-        --card: #111827;
-        --text: #e5e7eb;
-        --muted: #9ca3af;
-        --accent: #22d3ee;
-        --border: #1f2937;
-      }
-      * { box-sizing: border-box; }
-      body { margin: 0; font-family: Inter, Arial, sans-serif; background: var(--bg); color: var(--text); }
-      .deck { max-width: 1080px; margin: 0 auto; padding: 1rem; height: 100vh; display: grid; grid-template-rows: auto 1fr auto; gap: 0.8rem; }
-      .top { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.6rem; }
-      .brand { color: var(--accent); font-weight: 700; }
-      .slide { display: none; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.4rem; height: 100%; overflow: auto; }
-      .slide.active { display: block; }
-      h1 { margin: 0 0 0.8rem; font-size: 2rem; }
-      h2 { margin: 0 0 0.7rem; font-size: 1.4rem; }
-      p, li { color: var(--muted); line-height: 1.55; }
-      ul { margin-top: 0.5rem; }
-      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-      .box { border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem; }
-      .foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 0.6rem; }
-      .dots { display: flex; gap: 0.35rem; }
-      .dots button { width: 9px; height: 9px; border-radius: 99px; border: 0; background: #374151; }
-      .dots button[aria-current='true'] { background: var(--accent); }
-      .hint { font-size: 0.8rem; color: var(--muted); }
-      @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
-    </style>
-  </head>
-  <body>
-    <div class="deck">
-      <header class="top">
-        <div class="brand">Suprimify</div>
-        <div id="counter">1 / 9</div>
-      </header>
+<head>
+  <meta charset="utf-8">
+  <title>Suprimify Performance Lab - Project Presentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/blood.css" id="theme">
+  <style>
+    .reveal h1, .reveal h2 { font-family: 'Outfit', sans-serif; text-transform: none; }
+    .text-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(99, 102, 241, 0.2); 
+      border-radius: 12px; padding: 1.5rem; text-align: left;
+    }
+  </style>
+</head>
+<body>
 
-      <main id="slides">
-        <section class="slide active">
-          <h1>Suprimify Performance Lab</h1>
-          <p>Real-life Health & Fitness Tracker for end users with smart-device sync, quick analytics, and behavior-focused progress intelligence.</p>
-        </section>
+  <div class="reveal">
+    <div class="slides">
 
-        <section class="slide">
-          <h2>Problem We Solve</h2>
+      <!-- Slide 1: Intro -->
+      <section>
+        <h1 class="text-gradient">Suprimify Performance Lab</h1>
+        <h3>The Modern Web Fitness Tracker</h3>
+        <p>
+          <small>A masterclass in modern UI/UX, hardware APIs, and data visualization.</small>
+        </p>
+      </section>
+
+      <!-- Slide 2: The Challenge -->
+      <section>
+        <section>
+          <h2>The Problem</h2>
+          <p>Most fitness apps are either:</p>
           <ul>
-            <li>Users have fragmented fitness data across wearables and apps.</li>
-            <li>Most trackers show logs but fail to provide actionable performance trends.</li>
-            <li>Manual data entry creates friction and lowers retention.</li>
+            <li class="fragment">Overly complex monolithic native apps native to specific ecosystems.</li>
+            <li class="fragment">Fake, static mockup web applications placeholder UIs.</li>
+            <li class="fragment">Hard to connect hardware to securely over the web.</li>
           </ul>
         </section>
-
-        <section class="slide">
-          <h2>Core Product Capabilities</h2>
+        <section>
+          <h2>Our Solution</h2>
+          <p>A completely modernized full-stack web application focusing on:</p>
           <ul>
-            <li>Authentication: register/login accounts</li>
-            <li>Real backend API with SQLite persistence and JWT sessions</li>
-            <li>Exercise logs: type, duration, calories, notes, date</li>
-            <li>Weekly/monthly goals with progress tracking</li>
-            <li>30-day analytics chart (workouts + calories)</li>
-            <li>Streak tracking and reminder notifications</li>
+            <li class="fragment"><strong>Aesthetics:</strong> Glassmorphism, animations, theming.</li>
+            <li class="fragment"><strong>Architecture:</strong> Node.js, Express, React, Vite.</li>
+            <li class="fragment"><strong>IoT Integration:</strong> Authentic Web Bluetooth for BLE Heart Rate Monitors.</li>
           </ul>
         </section>
+      </section>
 
-        <section class="slide">
-          <h2>Smart Device Data Transfer</h2>
-          <div class="grid">
-            <div class="box">
-              <h3>Live Device Connect</h3>
-              <p>Apple Health, Fitbit, and Garmin can be connected from dashboard.</p>
-              <p>No manual upload required for regular updates.</p>
-            </div>
-            <div class="box">
-              <h3>Auto Sync Pipeline</h3>
-              <p>Server sync endpoint pulls activity for connected providers every few minutes.</p>
-              <p>Analytics refresh after each sync, with source-tagged log records.</p>
-            </div>
+      <!-- Slide 3: Features Overview -->
+      <section>
+        <h2>Core Capabilities</h2>
+        <div class="grid">
+          <div class="glass-card fragment">
+            <h4>📈 Advanced Analytics</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">Interactive Recharts integration for 30-day workout lookbacks, calorie trends, and goal progression.</p>
           </div>
-        </section>
+          <div class="glass-card fragment">
+            <h4>📡 Hardware Sync</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">Web Bluetooth GATT (Service 0x180D) reads live BPM directly. Stop & save creates a workout log automatically.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>🏋️ Specialized Logger</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">Tabbed module captures running pace, strength sets/reps, yoga mood, hydration, sleep, and heart rate.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>🎯 Goals & Streaks</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">Timezone-safe streak engine and dynamic progress rings for weekly/monthly goals.</p>
+          </div>
+        </div>
+      </section>
 
-        <section class="slide">
-          <h2>Technical Requirements Coverage</h2>
-          <ul>
-            <li>useState + useReducer for form/state control</li>
-            <li>useEffect for derived metrics and reminders</li>
-            <li>useMemo for date-range filtering and analytics</li>
-            <li>Recharts integrated for time-series visualizations</li>
-            <li>React Router for Dashboard, History, Goals, Auth</li>
-            <li>Custom useStreak hook for consecutive activity days</li>
-          </ul>
-        </section>
+      <!-- Slide 4: Account & Security -->
+      <section>
+        <h2>Account & Security</h2>
+        <div class="grid">
+          <div class="glass-card fragment">
+            <h4>🔐 Real Authentication</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">JWT auth, bcrypt-hashed passwords, "Remember email" checkbox, and password strength meter on signup.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>🔁 Password Reset</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">Two recovery paths: time-limited reset codes (30 min) or 4-word recovery phrases generated at signup.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>👤 Profile & Avatar</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">Customizable avatar color, password change, and re-generatable recovery phrase from a dedicated profile page.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>📡 Sync Timeline</h4>
+            <p style="font-size: 0.8em; color: #cbd5e1;">Per-device "last synced" cards plus a complete event timeline auto-recorded on every Bluetooth save.</p>
+          </div>
+        </div>
+      </section>
 
-        <section class="slide">
-          <h2>Differentiators</h2>
-          <ul>
-            <li>Real backend API with JWT auth and SQLite persistence</li>
-            <li>Remember-username login flow and branded Suprimify UX</li>
-            <li>Auto device sync for connected providers (no repeated uploads)</li>
-            <li>Cross-metric charting (activity and calories together)</li>
-            <li>Reminder system for behavior consistency</li>
-          </ul>
-        </section>
+      <!-- Slide 5: Technical Stack -->
+      <section>
+        <h2>Technical Stack</h2>
+        <ul>
+          <li><strong>Frontend:</strong> React 19, React Router, Vite, Recharts</li>
+          <li><strong>UI System:</strong> CSS Custom Properties, glassmorphism, light/dark theming via <code>useTheme</code></li>
+          <li><strong>Custom Hooks:</strong> <code>useStreak</code>, <code>useBluetooth</code>, <code>useNotificationReminder</code>, <code>useToast</code></li>
+          <li><strong>API:</strong> Express + Node.js, REST JSON, JWT-protected routes</li>
+          <li><strong>Data Store:</strong> better-sqlite3 with auto-migration of users, logs, goals, sync events, reset tokens</li>
+          <li><strong>Hardware:</strong> Web Bluetooth (Heart Rate GATT 0x180D + battery service)</li>
+        </ul>
+      </section>
 
-        <section class="slide">
-          <h2>Product Walkthrough (3 mins)</h2>
+      <!-- Slide 6: Architecture -->
+      <section>
+        <section>
+          <h2>End-to-End Data Flow</h2>
           <ol>
-            <li>Create account and log first workout</li>
-            <li>Set weekly goal and show progress</li>
-            <li>Import Fitbit/Apple template file</li>
-            <li>Show import report and updated 30-day chart</li>
-            <li>Open history page to confirm source-tagged entries</li>
+            <li>User signs up → backend hashes password & issues recovery phrase + JWT.</li>
+            <li>Bluetooth device pairs in-browser; HR samples stream into a recording session.</li>
+            <li>"Stop & save" posts to <code>/api/logs/bluetooth</code> → log + sync_event recorded.</li>
+            <li>Dashboard recomputes streaks, weekly minutes, calorie totals, and 30-day chart.</li>
+            <li>Sync Timeline page polls <code>/api/sync-events</code> for per-device status.</li>
           </ol>
         </section>
-
-        <section class="slide">
-          <h2>Roadmap to Production</h2>
-          <ul>
-            <li>OAuth connectors for Fitbit/Garmin APIs</li>
-            <li>Move from SQLite to managed Postgres with encrypted backups</li>
-            <li>Coach dashboards and weekly AI insights</li>
-            <li>Mobile app companion</li>
-          </ul>
+        <section>
+          <h2>Theming Engine</h2>
+          <p>A custom <code>useTheme</code> hook swaps CSS variables between ☀️ <span class="text-gradient">Light</span> and 🌙 <span class="text-gradient">Dark</span> with localStorage persistence.</p>
         </section>
+      </section>
 
-        <section class="slide">
-          <h2>Thank You</h2>
-          <p>Suprimify is building a fitness intelligence platform, not just a workout log.</p>
-        </section>
-      </main>
+      <!-- Slide 7: React Concepts Mapping -->
+      <section>
+        <h2>React Concepts Demonstrated</h2>
+        <ul>
+          <li><strong>useState / useReducer</strong> — log forms, BLE state machine, profile editing</li>
+          <li><strong>useEffect</strong> — derived stats, reminders, sync polling, BLE event subscription</li>
+          <li><strong>useMemo</strong> — date-range filtering, 30-day rollups, goal progress</li>
+          <li><strong>useRef</strong> — recording flag, click-outside detection for user menu</li>
+          <li><strong>Custom hooks</strong> — <code>useStreak</code>, <code>useBluetooth</code>, <code>useNotificationReminder</code></li>
+          <li><strong>React Router</strong> — Landing, Dashboard, History, Goals, Profile, Sync Timeline, Forgot Password</li>
+        </ul>
+      </section>
 
-      <footer class="foot">
-        <div class="dots" id="dots"></div>
-        <div class="hint">Use Left/Right arrows to navigate</div>
-      </footer>
+      <!-- Slide 8: Outro -->
+      <section>
+        <h2>Production-Ready</h2>
+        <p>Suprimify Performance Lab ships with real auth, real device data, real persistence, and a fully accessible UX — no mocks, no shortcuts.</p>
+        <h4 class="text-gradient" style="margin-top: 2rem;">Pushing limits with every workout.</h4>
+      </section>
+
     </div>
+  </div>
 
-    <script>
-      const slides = [...document.querySelectorAll('.slide')]
-      const dotsWrap = document.getElementById('dots')
-      const counter = document.getElementById('counter')
-      let index = 0
-
-      slides.forEach((_, i) => {
-        const dot = document.createElement('button')
-        dot.addEventListener('click', () => show(i))
-        dotsWrap.appendChild(dot)
-      })
-      const dots = [...dotsWrap.querySelectorAll('button')]
-
-      function show(next) {
-        index = Math.max(0, Math.min(next, slides.length - 1))
-        slides.forEach((s, i) => s.classList.toggle('active', i === index))
-        dots.forEach((d, i) => d.setAttribute('aria-current', i === index ? 'true' : 'false'))
-        counter.textContent = `${index + 1} / ${slides.length}`
-      }
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') show(index + 1)
-        if (e.key === 'ArrowLeft') show(index - 1)
-      })
-      show(0)
-    </script>
-  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      transition: 'convex',
+      backgroundTransition: 'slide'
+    });
+  </script>
+</body>
 </html>

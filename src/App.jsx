@@ -9,6 +9,9 @@ import HistoryPage from './components/HistoryPage'
 import GoalsPage from './components/GoalsPage'
 import LandingPage from './components/LandingPage'
 import Toast from './components/Toast'
+import ProfilePage from './components/ProfilePage'
+import ForgotPasswordPage from './components/ForgotPasswordPage'
+import SyncTimeline from './components/SyncTimeline'
 import { useToast } from './hooks/useToast'
 
 const API_BASE = 'http://localhost:4100/api'
@@ -72,6 +75,11 @@ function App() {
   const register = async (form) => {
     const result = await api('/auth/register', { method: 'POST', body: JSON.stringify(form) }, '')
     setToken(result.token)
+    if (result.recoveryPhrase) {
+      // Stash phrase so DashboardWelcome / Profile can surface it
+      sessionStorage.setItem('signup_recovery_phrase', result.recoveryPhrase)
+      addToast(`Save your recovery phrase: ${result.recoveryPhrase}`, 'info')
+    }
   }
 
   const login = async (form) => {
@@ -157,6 +165,13 @@ function App() {
             <AuthPage mode="register" onSubmit={register} />
           }
         />
+        <Route
+          path="/forgot-password"
+          element={
+            isAuthed ? <Navigate to="/dashboard" replace /> :
+            <ForgotPasswordPage />
+          }
+        />
 
         {/* App pages — with navbar */}
         <Route
@@ -175,6 +190,7 @@ function App() {
                         goals={goals}
                         addLog={addLog}
                         addToast={addToast}
+                        onSyncRefresh={refreshData}
                       />
                     </ProtectedRoute>
                   }
@@ -202,6 +218,27 @@ function App() {
                         deleteGoal={deleteGoal}
                         addToast={addToast}
                       />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute isAuthed={isAuthed}>
+                      <ProfilePage
+                        user={activeUser}
+                        api={api}
+                        onUserUpdate={setActiveUser}
+                        addToast={addToast}
+                      />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/sync-timeline"
+                  element={
+                    <ProtectedRoute isAuthed={isAuthed}>
+                      <SyncTimeline api={api} addToast={addToast} />
                     </ProtectedRoute>
                   }
                 />

@@ -7,7 +7,36 @@ CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
-  password_hash TEXT NOT NULL
+  password_hash TEXT NOT NULL,
+  avatar_color TEXT DEFAULT '#6366f1',
+  recovery_phrase TEXT DEFAULT '',
+  age INTEGER,
+  weight_kg REAL,
+  height_cm REAL,
+  gender TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  token TEXT NOT NULL UNIQUE,
+  expires_at TEXT NOT NULL,
+  used INTEGER DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS sync_events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  device_name TEXT NOT NULL,
+  device_type TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'success',
+  records_synced INTEGER DEFAULT 0,
+  details TEXT DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS logs (
@@ -70,6 +99,26 @@ const migrations = [
 for (const [col, sql] of migrations) {
   if (!cols.includes(col)) {
     db.exec(sql)
+  }
+}
+
+const userCols = db.prepare('PRAGMA table_info(users)').all().map((c) => c.name)
+const userMigrations = [
+  ['avatar_color', "ALTER TABLE users ADD COLUMN avatar_color TEXT DEFAULT '#6366f1'"],
+  ['recovery_phrase', "ALTER TABLE users ADD COLUMN recovery_phrase TEXT DEFAULT ''"],
+  ['age', "ALTER TABLE users ADD COLUMN age INTEGER"],
+  ['weight_kg', "ALTER TABLE users ADD COLUMN weight_kg REAL"],
+  ['height_cm', "ALTER TABLE users ADD COLUMN height_cm REAL"],
+  ['gender', "ALTER TABLE users ADD COLUMN gender TEXT"],
+  ['created_at', "ALTER TABLE users ADD COLUMN created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP"],
+]
+for (const [col, sql] of userMigrations) {
+  if (!userCols.includes(col)) {
+    try {
+      db.exec(sql)
+    } catch {
+      // SQLite doesn't allow adding NOT NULL DEFAULT CURRENT_TIMESTAMP to existing tables; ignore.
+    }
   }
 }
 

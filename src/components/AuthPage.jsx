@@ -23,8 +23,14 @@ export default function AuthPage({ mode, onSubmit }) {
     name: '',
     email: localStorage.getItem(REMEMBERED_EMAIL_KEY) || '',
     password: '',
+    age: '',
+    weight: '',
+    height: '',
+    gender: 'Other',
   })
   const [rememberMe, setRememberMe] = useState(Boolean(localStorage.getItem(REMEMBERED_EMAIL_KEY)))
+  const [termsAccepted, setTermsAccepted] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -32,6 +38,9 @@ export default function AuthPage({ mode, onSubmit }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    if (isRegister && !termsAccepted) {
+      return setError('You must accept the Terms and Conditions to proceed.')
+    }
     setError('')
     setLoading(true)
     try {
@@ -87,18 +96,44 @@ export default function AuthPage({ mode, onSubmit }) {
 
           <form onSubmit={handleSubmit}>
             {isRegister && (
-              <div className="form-group">
-                <label htmlFor="auth-name">Full Name</label>
-                <input
-                  id="auth-name"
-                  type="text"
-                  placeholder="John Doe"
-                  value={form.name}
-                  onChange={updateField('name')}
-                  required
-                  autoComplete="name"
-                />
-              </div>
+              <>
+                <div className="form-group">
+                  <label htmlFor="auth-name">Full Name</label>
+                  <input
+                    id="auth-name"
+                    type="text"
+                    placeholder="John Doe"
+                    value={form.name}
+                    onChange={updateField('name')}
+                    required
+                    autoComplete="name"
+                  />
+                </div>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <div className="form-group" style={{ flex: 1 }}>
+                    <label htmlFor="auth-age">Age</label>
+                    <input id="auth-age" type="number" placeholder="25" min="1" value={form.age} onChange={updateField('age')} />
+                  </div>
+                  <div className="form-group" style={{ flex: 1 }}>
+                    <label htmlFor="auth-gender">Gender</label>
+                    <select id="auth-gender" value={form.gender} onChange={updateField('gender')} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--card-bg)', color: 'var(--text-color)' }}>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <div className="form-group" style={{ flex: 1 }}>
+                    <label htmlFor="auth-weight">Weight (kg)</label>
+                    <input id="auth-weight" type="number" step="0.1" placeholder="70.5" value={form.weight} onChange={updateField('weight')} />
+                  </div>
+                  <div className="form-group" style={{ flex: 1 }}>
+                    <label htmlFor="auth-height">Height (cm)</label>
+                    <input id="auth-height" type="number" step="0.1" placeholder="175" value={form.height} onChange={updateField('height')} />
+                  </div>
+                </div>
+              </>
             )}
 
             <div className="form-group">
@@ -116,16 +151,38 @@ export default function AuthPage({ mode, onSubmit }) {
 
             <div className="form-group">
               <label htmlFor="auth-password">Password</label>
-              <input
-                id="auth-password"
-                type="password"
-                placeholder={isRegister ? 'Min. 6 characters' : '••••••••'}
-                value={form.password}
-                onChange={updateField('password')}
-                required
-                minLength={6}
-                autoComplete={isRegister ? 'new-password' : 'current-password'}
-              />
+              <div style={{ position: 'relative' }}>
+                <input
+                  id="auth-password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder={isRegister ? 'Min. 6 characters' : '••••••••'}
+                  value={form.password}
+                  onChange={updateField('password')}
+                  required
+                  minLength={6}
+                  autoComplete={isRegister ? 'new-password' : 'current-password'}
+                  style={{ width: '100%', paddingRight: '2.5rem' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  title={showPassword ? "Hide password" : "Show password"}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1.2rem',
+                    padding: 0,
+                    color: 'var(--text-light)'
+                  }}
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
               {isRegister && form.password && (
                 <>
                   <div className="password-strength">
@@ -140,6 +197,18 @@ export default function AuthPage({ mode, onSubmit }) {
               )}
             </div>
 
+            {isRegister && (
+              <div className="remember-row" style={{ marginTop: '0.5rem', marginBottom: '1rem' }}>
+                <input
+                  id="terms-conditions"
+                  type="checkbox"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                />
+                <label htmlFor="terms-conditions">I accept the <a href="#terms" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Terms and Conditions</a></label>
+              </div>
+            )}
+
             <div className="remember-row">
               <input
                 id="remember-me"
@@ -148,6 +217,11 @@ export default function AuthPage({ mode, onSubmit }) {
                 onChange={(e) => setRememberMe(e.target.checked)}
               />
               <label htmlFor="remember-me">Remember my email</label>
+              {!isRegister && (
+                <NavLink to="/forgot-password" className="forgot-link">
+                  Forgot password?
+                </NavLink>
+              )}
             </div>
 
             {error && <p className="auth-error">{error}</p>}
