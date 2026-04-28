@@ -5,23 +5,55 @@
   <title>Suprimify Performance Lab - Project Presentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/blood.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.css" id="theme">
   <style>
-    .reveal h1, .reveal h2 { font-family: 'Outfit', sans-serif; text-transform: none; }
+    .reveal {
+      background: #0f172a;
+      background-image: radial-gradient(ellipse at 50% 50%, #1e293b 0%, #06080f 100%);
+      font-family: 'Inter', sans-serif;
+      font-size: 26px; /* Base font size reduced */
+    }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 { 
+      font-family: 'Outfit', sans-serif; 
+      text-transform: none; 
+      letter-spacing: -0.02em;
+    }
+    .reveal h1 { font-size: 2.8em; margin-bottom: 0.5em; text-shadow: 0 4px 24px rgba(99,102,241,0.2); }
+    .reveal h2 { font-size: 1.8em; margin-bottom: 1em; color: #f8fafc; }
+    .reveal h3 { font-size: 1.4em; }
+    .reveal h4 { font-size: 1.2em; color: #e2e8f0; margin-bottom: 0.5em; }
+    .reveal p, .reveal li { 
+      font-size: 1.1em; 
+      line-height: 1.6; 
+      color: #cbd5e1;
+    }
     .text-gradient {
-      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #10b981 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       display: inline-block;
     }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
     .glass-card {
-      background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(99, 102, 241, 0.2); 
-      border-radius: 12px; padding: 1.5rem; text-align: left;
+      background: rgba(30, 41, 59, 0.4); 
+      border: 1px solid rgba(99, 102, 241, 0.15); 
+      border-radius: 16px; 
+      padding: 1.5rem; 
+      text-align: left;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
     }
+    .glass-card p { font-size: 0.9em !important; margin: 0; color: #94a3b8; }
+    .reveal ul { display: block; width: 80%; margin: 0 auto; text-align: left; }
+    .reveal ul li { margin-bottom: 0.8em; }
+    .reveal .slides { width: 100% !important; max-width: 1100px !important; }
   </style>
 </head>
 <body>
@@ -58,6 +90,29 @@
             <li class="fragment"><strong>IoT Integration:</strong> Authentic Web Bluetooth for BLE Heart Rate Monitors.</li>
           </ul>
         </section>
+      </section>
+
+      <!-- Slide 2.5: Project Rules & Principles -->
+      <section>
+        <h2>Project Architecture & Rules</h2>
+        <div class="grid">
+          <div class="glass-card fragment">
+            <h4>⚛️ Core Tech Stack</h4>
+            <p>Built with Vanilla CSS for complete styling control and React (Vite) for scalable web app logic, strictly avoiding generic utility frameworks like Tailwind.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>✨ Premium Aesthetics</h4>
+            <p>Prioritizing vibrant curated colors, sleek dark modes, and dynamic visual weight. "Minimum viable" is not an option; the design must WOW.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>🚀 Dynamic Interactions</h4>
+            <p>Interfaces designed to feel alive. Rich micro-animations, hover effects, and smooth transitions create an engaging and sophisticated user experience.</p>
+          </div>
+          <div class="glass-card fragment">
+            <h4>🔍 SEO & Best Practices</h4>
+            <p>Strict adherence to semantic HTML, perfect heading hierarchy, descriptive metadata, and unique interactive element IDs for robust testability.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Slide 3: Premium Aesthetics -->
@@ -106,7 +161,26 @@
         </div>
       </section>
 
-      <!-- Slide 4: Account & Security -->
+      <!-- Slide 4.5: Demonstration -->
+      <section>
+        <h2>Demonstration: Tracking Fitness</h2>
+        <div style="display: flex; flex-direction: column; gap: 1.2rem; width: 100%; margin: 0 auto; text-align: left;">
+          <div class="glass-card fragment" style="padding: 1rem 1.5rem;">
+            <h4 style="margin-bottom: 0.2rem;"><span class="text-gradient">1. Connect Device</span></h4>
+            <p>Click 'Connect Heart Rate Monitor' on the Dashboard. The browser's native Web Bluetooth API securely pairs with your BLE device without needing external drivers.</p>
+          </div>
+          <div class="glass-card fragment" style="padding: 1rem 1.5rem;">
+            <h4 style="margin-bottom: 0.2rem;"><span class="text-gradient">2. Log Activity</span></h4>
+            <p>Live BPM streams directly to the UI. Use the Specialized Logger to add context to your session (e.g., Running pace, Strength sets/reps, Yoga mood).</p>
+          </div>
+          <div class="glass-card fragment" style="padding: 1rem 1.5rem;">
+            <h4 style="margin-bottom: 0.2rem;"><span class="text-gradient">3. Sync & Visualize</span></h4>
+            <p>Hit 'Stop & Save'. The payload hits the backend API, and the Dashboard instantly re-renders—updating your progress rings, 30-day charts, and weekly streaks.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Account & Security -->
       <section>
         <h2>Account & Security</h2>
         <div class="grid">
