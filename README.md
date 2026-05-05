@@ -84,7 +84,7 @@ In a **second** terminal:
 cd fitness-tracker
 npm run dev
 ```
-The UI binds to `http://localhost:5173` (Vite default). Open it in Chrome or Edge for full Web Bluetooth support.
+The UI binds to `http://localhost:5100`. Open it in Chrome or Edge for full Web Bluetooth support.
 
 ### 4. Try it end-to-end
 1. Register an account — the toast shows your 4-word recovery phrase. Save it!
